@@ -1,13 +1,13 @@
 import React from "react";
 
-const LoadingSkeleton = () => {
+export default function LoadingSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {[...Array(6)].map((_, i) => (
-        <div key={i} className="animate-pulse bg-gray-200 h-32 rounded-xl"></div>
-      ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 animate-pulse">
+      {Array(3)
+        .fill()
+        .map((_, i) => (
+          <div key={i} className="bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>
+        ))}
     </div>
   );
-};
-
-export default LoadingSkeleton;
+}
