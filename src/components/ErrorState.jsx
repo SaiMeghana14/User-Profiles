@@ -1,7 +1,9 @@
 import React from "react";
 
-const ErrorState = ({ message }) => (
-  <div className="text-center text-red-500">{message}</div>
-);
-
-export default ErrorState;
+export default function ErrorState({ message }) {
+  return (
+    <div className="text-center text-red-500 mt-10 font-medium">
+      ⚠️ {message}
+    </div>
+  );
+}
