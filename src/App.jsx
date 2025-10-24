@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Home from "./pages/Home";
 
-const App = () => {
-  return (
-    <div className="min-h-screen bg-gray-100 text-gray-800">
-      <header className="bg-white shadow p-4 text-center text-xl font-semibold">
-        User Profiles Management
-      </header>
-      <Home />
-    </div>
-  );
-};
+export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
 
-export default App;
+  useEffect(() => {
+    if (darkMode) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [darkMode]);
+
+  return <Home darkMode={darkMode} setDarkMode={setDarkMode} />;
+}
