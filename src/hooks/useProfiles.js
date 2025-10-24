@@ -1,37 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { getProfiles, saveProfiles } from "../services/profilesStorage";
+import toast from "react-hot-toast";
 
-const useProfiles = () => {
+export default function useProfiles() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    setTimeout(() => {
-      try {
-        const data = getProfiles();
-        setProfiles(data);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }, 1000);
+    try {
+      const saved = getProfiles();
+      setProfiles(saved);
+    } catch {
+      setError("Failed to load profiles");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const addProfile = (profile) => {
-    const updated = [...profiles, { ...profile, id: Date.now() }];
-    setProfiles(updated);
-    saveProfiles(updated);
+  useEffect(() => {
+    saveProfiles(profiles);
+  }, [profiles]);
+
+  const addProfile = (p) => {
+    const newProfile = { ...p, id: Date.now() };
+    setProfiles([...profiles, newProfile]);
+    toast.success("Profile added!");
+  };
+
+  const updateProfile = (updated) => {
+    setProfiles(profiles.map((p) => (p.id === updated.id ? updated : p)));
+    toast.success("Profile updated!");
   };
 
   const deleteProfile = (id) => {
-    const updated = profiles.filter((p) => p.id !== id);
-    setProfiles(updated);
-    saveProfiles(updated);
+    setProfiles(profiles.filter((p) => p.id !== id));
+    toast.error("Profile deleted");
   };
 
-  return { profiles, addProfile, deleteProfile, loading, error };
-};
-
-export default useProfiles;
+  return { profiles, addProfile, updateProfile, deleteProfile, loading, error };
+}
