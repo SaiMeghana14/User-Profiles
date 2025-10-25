@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import placeholder from '../assets/placeholder.png';
 
 export default function ProfileCard({ profile, onEdit, onDelete }) {
   return (
